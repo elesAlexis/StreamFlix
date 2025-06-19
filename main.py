@@ -1,5 +1,7 @@
 # app/main.py - Primera aplicación FastAPI
 from fastapi import FastAPI
+from pydantic import BaseModel
+from routers import contenidos
 
 # Crear la aplicación FastAPI
 app = FastAPI(
@@ -7,6 +9,8 @@ app = FastAPI(
     description="API Backend para plataforma tipo Netflix",
     version="1.0.0"
 )
+
+app.include_router(contenidos.router)
 
 # Endpoint principal
 @app.get("/")
@@ -36,3 +40,4 @@ async def listar_series():
             {"id": 2, "titulo": "The Crown", "temporadas": 6}
         ]
     }
+
