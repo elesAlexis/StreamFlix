@@ -1,7 +1,7 @@
 # app/main.py - Primera aplicación FastAPI
 from fastapi import FastAPI
 from pydantic import BaseModel
-from routers import contenidos
+from routers import contenidos, users
 
 # Crear la aplicación FastAPI
 app = FastAPI(
@@ -11,6 +11,7 @@ app = FastAPI(
 )
 
 app.include_router(contenidos.router)
+app.include_router(users.router)
 
 # Endpoint principal
 @app.get("/")

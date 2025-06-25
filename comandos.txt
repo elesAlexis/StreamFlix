@@ -1,5 +1,5 @@
 # Ejecutar con recarga automática
-uvicorn app.main:app --reload
+uvicorn main:app --reload
 
 # Ejecutar en puerto específico
 uvicorn app.main:app --port 8080
