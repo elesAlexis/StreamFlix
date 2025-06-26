@@ -1,6 +1,6 @@
 from database.connection import ConnectionFactory
 from schemas.user import UserResponse, UserCreate
-
+from fastapi import HTTPException, status
 
 def obtener_usuarios(skip: int = 0, limit: int = 100):
     conn = ConnectionFactory.create_connection()
@@ -39,9 +39,35 @@ def crear_usuario(usuario: UserCreate) -> UserResponse:
     row = cursor.fetchone()
     conn.commit()
     cursor.close()
+    conn.close()
 
     return UserResponse(
         id=row.id,
         nombre=row.nombre,
         email=row.email
+    )
+
+def obtener_usuario_por_id(user_id: int) -> UserResponse:
+    conn = ConnectionFactory.create_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""SELECT id, nombre, email
+                   FROM usuarios
+                   WHERE id = ?""", (user_id))
+    
+    row = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not row:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail=f"Usuario con id {user_id} no encontrado"
+        )
+    
+    return UserResponse(
+        id=row.id,
+        nombre=row.nombre,
+        email=row.email
+
     )
