@@ -1,7 +1,15 @@
 # app/models/user.py
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 
-class User(BaseModel):
+
+# Para crear un usuario
+class UserCreate(BaseModel):
+    nombre: str
+    email: EmailStr
+    contrasena: str
+
+# Para devolver info de un usuario (sin contraseña)
+class UserResponse(BaseModel):
     id: int
     nombre: str
-    email: str
+    email: EmailStr

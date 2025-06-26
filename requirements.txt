@@ -2,5 +2,6 @@ fastapi
 uvicorn
 pydantic
 pydantic-settings
+pydantic[email]
 python-dotenv
 pyodbc
