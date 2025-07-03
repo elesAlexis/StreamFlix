@@ -1,7 +1,8 @@
-# app/main.py - Primera aplicación FastAPI
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from fastapi.openapi.utils import get_openapi
 from pydantic import BaseModel
 from routers import contenidos, users
+from auth import auth
 
 # Crear la aplicación FastAPI
 app = FastAPI(
@@ -10,8 +11,34 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Definir esquema de seguridad para Swagger UI
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="Demo JWT",
+        version="1.0.0",
+        description="API con JWT y rutas protegidas",
+        routes=app.routes,
+    )
+    openapi_schema["components"]["securitySchemes"] = {
+        "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+        }
+    }
+    for path in openapi_schema["paths"].values():
+        for method in path.values():
+            method["security"] = [{"bearerAuth": []}]
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+app.openapi = custom_openapi
+
 app.include_router(contenidos.router)
 app.include_router(users.router)
+app.include_router(auth.router)
 
 # Endpoint principal
 @app.get("/")
@@ -23,22 +50,4 @@ async def root():
         "documentacion": "/docs"
     }
 
-
-@app.get("/peliculas")
-async def listar_peliculas():
-    return {
-        "peliculas": [
-            {"id": 1, "titulo": "El Padrino", "año": 1972},
-            {"id": 2, "titulo": "Pulp Fiction", "año": 1994}
-        ]
-    }
-
-@app.get("/series")
-async def listar_series():
-    return {
-        "series": [
-            {"id": 1, "titulo": "Stranger Things", "temporadas": 4},
-            {"id": 2, "titulo": "The Crown", "temporadas": 6}
-        ]
-    }
 

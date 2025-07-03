@@ -13,3 +13,8 @@ class UserResponse(BaseModel):
     id: int
     nombre: str
     email: EmailStr
+
+# Para loguear un usuario
+class UserIn(BaseModel):
+    email: str
+    password: str

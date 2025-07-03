@@ -71,3 +71,29 @@ def obtener_usuario_por_id(user_id: int) -> UserResponse:
         email=row.email
 
     )
+
+def autenticar_usuario(email: str, password: str):
+    conn = ConnectionFactory.create_connection()
+    cursor = conn.cursor()
+
+    query = """
+    SELECT id, nombre, email, rol
+    FROM usuarios
+    WHERE email = ? AND contrasena = ?
+    """
+
+    cursor.execute(query, (email, password))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row:
+        print("Encuentro usuario")
+        print(row.id)
+        return {
+            "id": row.id,
+            "username": row.nombre,
+            "email": row.email,
+            "rol": row.rol
+        }
+    
+    return None
