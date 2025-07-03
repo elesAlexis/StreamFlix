@@ -13,5 +13,5 @@ async def login(user: UserIn):
         raise HTTPException(status_code=400, detail="Credenciales inválidas")
     
     print(usuario)
-    token = crear_token({"sub": str(usuario.get("id"))})
+    token = crear_token({"sub": str(usuario.get("id")), "rol" : usuario.get("rol")})
     return {"access_token": token, "token_type": "bearer"}

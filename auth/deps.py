@@ -15,6 +15,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 def rol_requerido(rol: str):
     def validador(usuario=Depends(get_current_user)):
+        print("usuario desde rol")
+        print(type(usuario))
+        print(usuario)
         if usuario.get("rol") != rol:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
