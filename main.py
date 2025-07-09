@@ -5,6 +5,8 @@ from pydantic import BaseModel
 from routers import contenidos, users
 from auth import auth
 from web import home_web
+from web.auth_web import router as auth_router
+from web.dashboard_web import router as dash_router
 
 # Crear la aplicación FastAPI
 app = FastAPI(
@@ -45,6 +47,8 @@ app.include_router(contenidos.router)
 app.include_router(users.router)
 app.include_router(auth.router)
 app.include_router(home_web.router)
+app.include_router(auth_router, tags=["web-auth"])
+app.include_router(dash_router, tags=["dash-router"])
 
 # Endpoint principal
 @app.get("/")

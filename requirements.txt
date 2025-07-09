@@ -8,3 +8,5 @@ python-jose[cryptography]
 pyodbc
 jose
 jinja2
+python-multipart
+aiofiles
