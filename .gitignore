@@ -16,4 +16,4 @@ __pycache__
 *.pem
 *.crt
 *.p12
-fast_api_venv/
+venv/

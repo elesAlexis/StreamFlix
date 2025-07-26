@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix-Style Showcase</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    
+    <style>
+        body {
+            background-color: #141414;
+            color: #fff;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #141414 !important;
+            padding: 1rem 3rem;
+        }
+
+        .navbar-brand img {
+            height: 30px;
+        }
+
+        .nav-link {
+            color: #e5e5e5 !important;
+            font-weight: 500;
+            margin-right: 1.5rem;
+        }
+
+        .nav-link:hover {
+            color: #fff !important;
+        }
+
+        .hero-section {
+            
+            position: relative;
+            height: 70vh; /* Adjust as needed */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 3rem;
+            color: #fff;
+        }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0) 50%, rgba(20, 20, 20, 1) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            padding-bottom: 50px;
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons .btn {
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 0.25rem;
+            margin-right: 1rem;
+        }
+
+        .btn-play {
+            background-color: #fff;
+            color: #000;
+            border: none;
+        }
+
+        .btn-play:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #000;
+        }
+
+        .btn-info {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-info:hover {
+            background-color: rgba(109, 109, 110, 0.5);
+            color: #fff;
+        }
+
+        .content-row {
+            padding: 2rem 3rem;
+        }
+
+        .content-row h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #e5e5e5;
+        }
+
+        .card-container {
+            display: flex;
+            overflow-x: scroll;
+            padding-bottom: 1rem; /* Space for scrollbar */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+
+        .card-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .content-card {
+            flex: 0 0 auto; /* Do not grow, do not shrink, base size auto */
+            width: 250px; /* Adjust card width as needed */
+            height: 140px; /* Adjust card height to maintain aspect ratio */
+            margin-right: 0.8rem;
+            background-color: #2f2f2f;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .content-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .content-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content-card .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            padding: 1rem;
+            color: #fff;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .content-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .content-card .card-overlay h5 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .footer {
+            background-color: #141414;
+            color: #777;
+            padding: 3rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            color: #777;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid px-5">
+            <a class="navbar-brand" href="#">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Netflix_logo_PNG2.png" alt="Netflix Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Series TV</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Películas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Novedades populares</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Mi lista</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-bell"></i></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://i.pravatar.cc/30" alt="Profile Avatar" class="rounded-circle me-1">
+                            John Doe
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Administrar perfiles</a></li>
+                            <li><a class="dropdown-item" href="#">Cuenta</a></li>
+                            <li><a class="dropdown-item" href="#">Centro de ayuda</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<div class="container py-10">
+    <section class="hero-section" style='background-image: url("{{ url_for('static', path='/static/imagenes/el_agente_nocturno.jpg') }}");'>
+        <div class="hero-content">
+            <h1 class="display-4">El Agente Nocturno</h1>
+            <p class="lead">Un agente del FBI de bajo nivel, que trabaja en el sótano de la Casa Blanca, atiende una línea telefónica de emergencia que recibe una llamada de socorro de una conspiración que le cambia la vida.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-play"><i class="fas fa-play me-2"></i>Reproducir</button>
+                <button class="btn btn-info"><i class="fas fa-info-circle me-2"></i>Más información</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="container-md">
+  
+    <section class="content-row">
+        <h2>Populares en Netflix</h2>
+        <div class="card-container">
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/rM97sC7i6y1Q2mS6tQ2e4m3t4.jpg" alt="Content Title 1">
+                <div class="card-overlay">
+                    <h5>El Agente Nocturno</h5>
+                    <span>98% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/yJ0pT0F8mPz0y7J0tG0dG6G4F5F.jpg" alt="Content Title 2">
+                <div class="card-overlay">
+                    <h5>Stranger Things</h5>
+                    <span>95% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/qjLU6G9Pz4H4G4Q7c5Q2d5W2D5.jpg" alt="Content Title 3">
+                <div class="card-overlay">
+                    <h5>Wednesday</h5>
+                    <span>92% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/yM97sC7i6y1Q2mS6tQ2e4m3t4.jpg" alt="Content Title 1">
+                <div class="card-overlay">
+                    <h5>El Agente Nocturno</h5>
+                    <span>98% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/rM97sC7i6y1Q2mS6tQ2e4m3t4.jpg" alt="Content Title 1">
+                <div class="card-overlay">
+                    <h5>El Agente Nocturno</h5>
+                    <span>98% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/yJ0pT0F8mPz0y7J0tG0dG6G4F5F.jpg" alt="Content Title 2">
+                <div class="card-overlay">
+                    <h5>Stranger Things</h5>
+                    <span>95% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/qjLU6G9Pz4H4G4Q7c5Q2d5W2D5.jpg" alt="Content Title 3">
+                <div class="card-overlay">
+                    <h5>Wednesday</h5>
+                    <span>92% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/yM97sC7i6y1Q2mS6tQ2e4m3t4.jpg" alt="Content Title 1">
+                <div class="card-overlay">
+                    <h5>El Agente Nocturno</h5>
+                    <span>98% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/rM97sC7i6y1Q2mS6tQ2e4m3t4.jpg" alt="Content Title 1">
+                <div class="card-overlay">
+                    <h5>El Agente Nocturno</h5>
+                    <span>98% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/yJ0pT0F8mPz0y7J0tG0dG6G4F5F.jpg" alt="Content Title 2">
+                <div class="card-overlay">
+                    <h5>Stranger Things</h5>
+                    <span>95% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/qjLU6G9Pz4H4G4Q7c5Q2d5W2D5.jpg" alt="Content Title 3">
+                <div class="card-overlay">
+                    <h5>Wednesday</h5>
+                    <span>92% match</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+    <section class="content-row">
+        <h2>Mi lista</h2>
+        <div class="card-container">
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/iLgWb64L41C0XyXb7q6X1G7Q0F0.jpg" alt="Content Title 4">
+                <div class="card-overlay">
+                    <h5>Outer Banks</h5>
+                    <span>87% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/hPdd8F6r3fF4Q7fW6K5P2pP3p3.jpg" alt="Content Title 5">
+                <div class="card-overlay">
+                    <h5>Manifest</h5>
+                    <span>89% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/iLgWb64L41C0XyXb7q6X1G7Q0F0.jpg" alt="Content Title 4">
+                <div class="card-overlay">
+                    <h5>Outer Banks</h5>
+                    <span>87% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/hPdd8F6r3fF4Q7fW6K5P2pP3p3.jpg" alt="Content Title 5">
+                <div class="card-overlay">
+                    <h5>Manifest</h5>
+                    <span>89% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/iLgWb64L41C0XyXb7q6X1G7Q0F0.jpg" alt="Content Title 4">
+                <div class="card-overlay">
+                    <h5>Outer Banks</h5>
+                    <span>87% match</h5>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/hPdd8F6r3fF4Q7fW6K5P2pP3p3.jpg" alt="Content Title 5">
+                <div class="card-overlay">
+                    <h5>Manifest</h5>
+                    <span>89% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/iLgWb64L41C0XyXb7q6X1G7Q0F0.jpg" alt="Content Title 4">
+                <div class="card-overlay">
+                    <h5>Outer Banks</h5>
+                    <span>87% match</span>
+                </div>
+            </div>
+            <div class="content-card">
+                <img src="https://image.tmdb.org/t/p/w500/hPdd8F6r3fF4Q7fW6K5P2pP3p3.jpg" alt="Content Title 5">
+                <div class="card-overlay">
+                    <h5>Manifest</h5>
+                    <span>89% match</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Netflix-Style Showcase. Todos los derechos reservados.</p>
+        <div>
+            <a href="#">Términos de uso</a> |
+            <a href="#">Privacidad</a> |
+            <a href="#">Preferencias de cookies</a> |
+            <a href="#">Información corporativa</a>
+        </div>
+    </footer>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4Qz4w" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+

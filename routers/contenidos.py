@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from auth.deps import rol_requerido
 from typing import List
 from schemas.contenido import ContenidoOut
 from services.contenidos_service import obtener_contenidos

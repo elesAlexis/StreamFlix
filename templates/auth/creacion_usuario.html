@@ -4,8 +4,8 @@
 <div class="login-container">
     <div class="login-card">
         <div class="login-header">
-            <h1>Iniciar Sesión</h1>
-            <p>Accede a tu cuenta de StreamFlix</p>
+            <h1>Registro</h1>
+            <p>Crea una cuenta de usuario</p>
         </div>
 
         {% if error %}
@@ -15,14 +15,17 @@
         </div>
         {% endif %}
 
-        {% if exito %}
-        <div class="alert alert-error2">
-            <span class="alert-icon">&#9989;</span>
-            {{ exito }}
-        </div>
-        {% endif %}
-
-        <form method="POST" action="/web/login" class="login-form">
+        <form method="POST" action="/web/crear_usuario" class="login-form">
+                        <div class="form-group">
+                <label for="Nombre">Nombre Completo</label>
+                <input 
+                    type="Nombre" 
+                    id="nombre" 
+                    name="nombre" 
+                    required 
+                    placeholder="Nombre completo"
+                >
+            </div>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input 
@@ -46,14 +49,25 @@
                 >
             </div>
 
+            <div class="form-group">
+                <label for="password">Confirme contraseña</label>
+                <input 
+                    type="password" 
+                    id="password_2" 
+                    name="password_2" 
+                    required 
+                    placeholder="Tu contraseña"
+                >
+            </div>
+
             <button type="submit" class="btn-login">
-                Iniciar Sesión
+                Comienza ya
             </button>
         </form>
 
         <div class="login-footer">
-            <p>¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
-            <p><a href="/">← Volver al inicio</a></p>
+            <!-- <p>¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p> -->
+            <p><a href="/home">← Volver al inicio</a></p>
         </div>
     </div>
 </div>

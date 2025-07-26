@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from routers import contenidos, users
 from auth import auth
-from web import home_web
+from web import home_web, register, contenidos_vista
 from web.auth_web import router as auth_router
 from web.dashboard_web import router as dash_router
 
@@ -49,6 +49,9 @@ app.include_router(auth.router)
 app.include_router(home_web.router)
 app.include_router(auth_router, tags=["web-auth"])
 app.include_router(dash_router, tags=["dash-router"])
+app.include_router(register.router)
+app.include_router(contenidos_vista.router)
+
 
 # Endpoint principal
 @app.get("/")

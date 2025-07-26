@@ -10,6 +10,7 @@ templates = Jinja2Templates(directory="templates")
 async def dashboard(request: Request, access_token: Optional[str] = Cookie(None)):
     if not access_token:
         raise HTTPException(status_code=401, detail="No autorizado")
+        #return 
     
     # Remover "Bearer " del token
     token = access_token.replace("Bearer ", "") if access_token.startswith("Bearer ") else access_token

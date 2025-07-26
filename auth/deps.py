@@ -8,6 +8,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     payload = verificar_token(token)
+    print('payload')
     if not payload:
         raise HTTPException(status_code=401, detail="Token inválido")
     return payload

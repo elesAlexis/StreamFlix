@@ -97,3 +97,29 @@ def autenticar_usuario(email: str, password: str):
         }
     
     return None
+
+def verificar_existencia_usuario(email: str):
+    conn = ConnectionFactory.create_connection()
+    cursor = conn.cursor()
+
+    query = """
+    SELECT id, nombre, email, rol
+    FROM usuarios
+    WHERE email = ?
+    """
+
+    cursor.execute(query, (email))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row:
+        print("Encuentro usuario")
+        print(row.id)
+        return {
+            "id": row.id,
+            "username": row.nombre,
+            "email": row.email,
+            "rol": row.rol
+        }
+    
+    return None

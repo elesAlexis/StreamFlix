@@ -7,7 +7,8 @@ from auth.deps import get_current_user, rol_requerido
 router = APIRouter()
 
 @router.get("/usuarios", response_model=List[UserResponse])
-async def listar_usuarios(skip: int = 0, limit: int = 100, _ =Depends(rol_requerido("admin"))):
+async def listar_usuarios(skip: int = 0, limit: int = 100, _= Depends(rol_requerido("admin"))):
+
     return obtener_usuarios(skip=skip, limit=limit)
 
 @router.post("/usuarios", response_model=UserResponse, status_code=201)

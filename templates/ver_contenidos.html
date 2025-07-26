@@ -1,0 +1,72 @@
+{% extends "base_contenidos.html" %}
+{% block content %}
+    <section >
+        <div class="card-container">
+            <div class="content">
+                            <h2 style="color: aliceblue;">Populares en Netflix</h2>
+            </div>
+        </div>
+    </section>
+
+   <!-- Contenidos populares -->
+    {% if populares %}
+         <section class="content-row">
+        <h2>Populares en Netflix</h2>
+        <div class="card-container"> {# ESTE ES EL CONTENEDOR DEL SCROLL #}
+            {% for contenido in populares %}
+            <div class="content-card">
+                <img src="{{contenido.imagen}}" alt="{{ contenido.titulo }}"> {# Ajustado para usar una URL de imagen dinámica #}
+                <div class="card-overlay">
+                    <div><h5>{{contenido.titulo}}:</h5></div>
+                    <h5>{{ contenido.descripcion}}</h5>
+                    {# Puedes añadir aquí el porcentaje si lo tienes en el objeto contenido #}
+                    {# <span>{{ contenido.porcentaje_match }}% match</span> #}
+                </div>
+            </div>
+            {% endfor %}
+        </div> {# CIERRE DEL CONTENEDOR DEL SCROLL #}
+    </section>
+
+    {% endif %}
+{% if series %}
+    <!-- Contenidos Series -->
+    <section class="content-row">
+        <h2>Series</h2>
+        <div class="card-container"> {# ESTE ES EL CONTENEDOR DEL SCROLL #}
+            {% for contenido in series %}
+            <div class="content-card">
+                <img src="{{contenido.imagen}}" alt="{{ contenido.titulo }}"> {# Ajustado para usar una URL de imagen dinámica #}
+                <div class="card-overlay">
+                    <div><h5>{{contenido.titulo}}:</h5></div>
+                    <h5>{{ contenido.descripcion}}</h5>
+                    {# Puedes añadir aquí el porcentaje si lo tienes en el objeto contenido #}
+                    {# <span>{{ contenido.porcentaje_match }}% match</span> #}
+                </div>
+            </div>
+            {% endfor %}
+        </div> {# CIERRE DEL CONTENEDOR DEL SCROLL #}
+    </section>
+{% endif %}
+   {% if peliculas %}
+     <!-- Contenidos peliculas -->
+    <section class="content-row">
+        <h2>Peliculas</h2>
+        <div class="card-container"> {# ESTE ES EL CONTENEDOR DEL SCROLL #}
+            {% for contenido in peliculas %}
+            <div class="content-card">
+                <img src="{{contenido.imagen}}" alt="{{ contenido.titulo }}"> {# Ajustado para usar una URL de imagen dinámica #}
+                <div class="card-overlay">
+                    <div><h5>{{contenido.titulo}}:</h5></div>
+                    <h5>{{ contenido.descripcion}}</h5>
+                    {# Puedes añadir aquí el porcentaje si lo tienes en el objeto contenido #}
+                    {# <span>{{ contenido.porcentaje_match }}% match</span> #}
+                </div>
+            </div>
+            {% endfor %}
+        </div> {# CIERRE DEL CONTENEDOR DEL SCROLL #}
+    </section>
+   {% endif %}
+    
+
+{% endblock %}
+
