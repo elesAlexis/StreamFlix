@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 o
 
-#SERVER=10.200.14.102
+#SERVER=
 #DATABASE=
 #USERNAME=
 #PASSWORD=
