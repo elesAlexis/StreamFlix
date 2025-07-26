@@ -4,11 +4,11 @@
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/cmestradap/curso_fast_api
-cd curso_fast_api
+git clone https://github.com/ACLopezCastano/fast_api.git
+cd fast_api
 
 # 2. Crear entorno virtual
-python -m venv fast_api_venv
+python -m venv venv
 
 # 3. Activar entorno virtual
 # En Windows:
