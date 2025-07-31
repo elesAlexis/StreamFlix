@@ -12,4 +12,4 @@ class ContenidoOut(BaseModel):
     descripcion: Optional[str]
     fecha_lanzamiento: Optional[str]
     tipo_contenido: TipoContenido
-    imagen: str
+    imagen: Optional[str]
